@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/python
 
 import sys
 import getopt
@@ -96,6 +96,7 @@ def main(args):
         create_peanut(new_peanut_name)
     else:
         usage()
+
 
 if __name__ == '__main__':
     if len(sys.argv) <= 1:
