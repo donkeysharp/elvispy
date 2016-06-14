@@ -33,9 +33,11 @@ Source:
         exit(0)
 
 
-AVAILABLE_PEANUTS = {}
+PEANUT_MANAGER = {}
 def list_peanuts(verbose=False):
     print('List of available peanuts:')
+    AVAILABLE_PEANUTS = PEANUT_MANAGER.peanut_map
+
     for name in AVAILABLE_PEANUTS.keys():
         peanut = AVAILABLE_PEANUTS[name]
         if not verbose:
@@ -44,14 +46,15 @@ def list_peanuts(verbose=False):
             print('     [*] %s - %s' % (name, peanut.info['description']))
 
 
-def run_peanuts(peanut_list):
+def run_peanuts(peanut_list, host_list):
     print('Running peanuts...')
-    for peanut in peanut_list:
-        if not AVAILABLE_PEANUTS.has_key(peanut):
-            print('Peanut %s is not available or it does not exist.' % peanut)
-            exit(0)
-    for peanut in peanut_list:
-        AVAILABLE_PEANUTS[peanut].start()
+    PEANUT_MANAGER.run_peanuts(peanut_list, host_list)
+    # for peanut in peanut_list:
+    #     if not AVAILABLE_PEANUTS.has_key(peanut):
+    #         print('Peanut %s is not available or it does not exist.' % peanut)
+    #         exit(0)
+    # for peanut in peanut_list:
+    #     AVAILABLE_PEANUTS[peanut].start()
 
 
 def create_peanut(peanut_name):
@@ -59,7 +62,7 @@ def create_peanut(peanut_name):
 
 
 def main(args):
-    global AVAILABLE_PEANUTS
+    global PEANUT_MANAGER
     try:
         opts, args = getopt.getopt(args, ARG_OPTIONS[0], ARG_OPTIONS[1])
     except getopt.GetoptError:
@@ -89,14 +92,14 @@ def main(args):
             hosts_flag = True
             host_list = value.split(',')
 
-    AVAILABLE_PEANUTS = load_peanuts(list_all_flag)
+    PEANUT_MANAGER = load_peanuts(list_all_flag)
 
     if help_flag:
         usage()
     elif list_flag or list_all_flag:
         list_peanuts(verbose_flag)
     elif run_flag and hosts_flag and len(host_list) > 0:
-        run_peanuts(peanut_list)
+        run_peanuts(peanut_list, host_list)
     elif create_flag:
         create_peanut(new_peanut_name)
     else:

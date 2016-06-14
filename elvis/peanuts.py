@@ -13,6 +13,29 @@ class Peanut:
                 loader=PackageLoader('peanuts.' + self.name, 'templates')
             )
 
+    def set_hosts(self, host_list):
+        self.host_list = host_list
+
     def start(self):
         # Starting module related with "this" peanut
         self.module.load(self)
+
+
+class PeanutManager:
+    def __init__(self):
+        self.peanut_map = {}
+
+    def add_peanut(self, peanut):
+        self.peanut_map[peanut.name] = peanut
+
+    def run_peanuts(self, peanut_list, host_list):
+        AVAILABLE_PEANUTS = self.peanut_map
+
+        for peanut in peanut_list:
+            if not AVAILABLE_PEANUTS.has_key(peanut):
+                print('Peanut %s is not available or it does not exist.' % peanut)
+                exit(0)
+
+        for peanut in peanut_list:
+            AVAILABLE_PEANUTS[peanut].set_hosts(host_list)
+            AVAILABLE_PEANUTS[peanut].start()

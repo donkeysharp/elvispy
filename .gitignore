@@ -93,7 +93,7 @@ ENV/
 *.sublime-workspace
 
 # Avoid generated files
-__tmp__/
+.__tmp__/
 
 # Avoid peanuts folders
 peanuts/**/

@@ -41,4 +41,4 @@ def template(peanut, destination, options={}):
     def remote_run():
         put(filename, destination)
 
-    execute(remote_run, hosts=['donkeysharp@192.168.56.120'])
+    execute(remote_run, hosts=peanut.host_list)
