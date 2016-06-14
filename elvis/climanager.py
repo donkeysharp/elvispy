@@ -24,3 +24,8 @@ def create_peanut(peanut_name):
     f.write("    print('Loading peanut %s')\n" % peanut_name)
     f.flush()
     f.close()
+
+def clean():
+    if os.path.exists('./.__tmp__') and os.path.isdir('./.__tmp__'):
+        import shutil
+        shutil.rmtree('./.__tmp__')

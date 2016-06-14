@@ -91,3 +91,9 @@ ENV/
 # Sublime text projects
 *.sublime-project
 *.sublime-workspace
+
+# Avoid generated files
+__tmp__/
+
+# Avoid peanuts folders
+peanuts/**/

@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
-import sys
+import sys, os
 import getopt
 from peanuts import load as load_peanuts
-from elvis.climanager import create_peanut as manager_create_peanut
+from elvis.climanager import clean, create_peanut as manager_create_peanut
 
 ARG_OPTIONS = (
     'hlLr:c:V',
@@ -97,6 +97,7 @@ def main(args):
     else:
         usage()
 
+    clean()
 
 if __name__ == '__main__':
     if len(sys.argv) <= 1:
