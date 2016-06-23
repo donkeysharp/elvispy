@@ -42,3 +42,24 @@ def template(peanut, destination, options={}):
         put(filename, destination)
 
     execute(remote_run, hosts=peanut.host_list)
+
+def directory(peanut, name, options={}):
+    mode = options['mode'] if options.has_key('mode') else 755
+    user = options['user'] if options.has_key('user') else 'root'
+    group = options['group'] if options.has_key('group') else 'root'
+
+    command = 'sudo mkdir -p %s -m %d' % (name, mode)
+    command += ' && sudo chown -R %s:%s %s' % (user, group)
+
+    def remote_run():
+        run(command)
+
+    execute(remote_run, hosts=peanut.host_list)
+
+# def service()
+# def user()
+# def group()
+# def bash()
+# def link()
+# def cron()
+# def apt_package()
