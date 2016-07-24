@@ -29,17 +29,21 @@ class DirectoryResource(BaseResource):
         self.mode = mode
 
     def action_create(self):
+        username = self.peanut.username
+        password = self.peanut.password
         command = 'mkdir -p %s ' % (self.name)
         command += ' && chown -R %s:%s %s' % (self.user, self.group, \
             self.name)
         command += ' && chmod %s %s' % (self.mode, self.name)
 
-        execute(runner(command, 'user', 'password'), hosts=self.peanut.host_list)
+        execute(runner(command, username, password), hosts=self.peanut.host_list)
 
 
     def action_delete(self):
+        username = self.peanut.username
+        password = self.peanut.password
         command = 'rm -r %s' % (self.name)
-        execute(runner(command, 'user', 'password'), hosts=self.peanut.host_list)
+        execute(runner(command, username, password), hosts=self.peanut.host_list)
 
 
 def directory(peanut,name, **options):

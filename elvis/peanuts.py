@@ -13,6 +13,10 @@ class Peanut:
                 loader=PackageLoader('peanuts.' + self.name, 'templates')
             )
 
+    def set_credentials(self, username, password):
+        self.username = username
+        self.password = password
+
     def set_hosts(self, host_list):
         self.host_list = host_list
 
@@ -28,7 +32,7 @@ class PeanutManager:
     def add_peanut(self, peanut):
         self.peanut_map[peanut.name] = peanut
 
-    def run_peanuts(self, peanut_list, host_list):
+    def run_peanuts(self, peanut_list, host_list, username, password):
         AVAILABLE_PEANUTS = self.peanut_map
 
         for peanut in peanut_list:
@@ -37,5 +41,6 @@ class PeanutManager:
                 exit(0)
 
         for peanut in peanut_list:
+            AVAILABLE_PEANUTS[peanut].set_credentials(username, password)
             AVAILABLE_PEANUTS[peanut].set_hosts(host_list)
             AVAILABLE_PEANUTS[peanut].start()

@@ -38,6 +38,8 @@ class TemplateResource(BaseResource):
         self.source = source
 
     def action_create(self):
+        username = self.peanut.username
+        password = self.peanut.password
         tplenv = self.peanut.template_env
         template = tplenv.get_template(self.source)
         variables = self.variables
@@ -46,7 +48,7 @@ class TemplateResource(BaseResource):
         filename = _save_temporal_file(content)
         print(content)
 
-        execute(runner(filename, self.destination, 'user', 'password'), hosts=self.peanut.host_list)
+        execute(runner(filename, self.destination, username, password), hosts=self.peanut.host_list)
 
 
 def template(peanut, destination, **options):
