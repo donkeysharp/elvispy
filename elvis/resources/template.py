@@ -6,11 +6,12 @@ from .base_resource import BaseResource
 from .base_resource import actions
 
 
-def runner(filename, dest, user, password):
+def runner(filename, dest, user, password, owner, group):
     def closure():
         env.user = user
         env.password = password
         put(filename, dest, use_sudo=True)
+        sudo('chown %s:%s %s' % (owner, group, dest))
     return closure
 
 def _save_temporal_file(content):
@@ -29,26 +30,33 @@ class TemplateResource(BaseResource):
     def __init__(self, peanut, destination,
                                 action=actions.CREATE,
                                 variables={},
-                                source=''):
+                                source='',
+                                owner='$USER',
+                                group='$GROUPS'):
         self.actions = (actions.CREATE)
         self.action = action
         self.peanut = peanut
         self.destination = destination
         self.variables = variables
         self.source = source
+        self.owner = owner
+        self.group = group
 
     def action_create(self):
         username = self.peanut.username
         password = self.peanut.password
+        owner = self.owner
+        group = self.group
         tplenv = self.peanut.template_env
         template = tplenv.get_template(self.source)
         variables = self.variables
 
+        # Save rendered template a temp file
         content = template.render(**variables)
         filename = _save_temporal_file(content)
-        print(content)
 
-        execute(runner(filename, self.destination, username, password), hosts=self.peanut.host_list)
+        execute(runner(filename, self.destination, username, password,\
+            owner, group), hosts=self.peanut.host_list)
 
 
 def template(peanut, destination, **options):

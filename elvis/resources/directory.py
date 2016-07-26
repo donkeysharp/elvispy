@@ -18,13 +18,13 @@ class DirectoryResource(BaseResource):
     def __init__(self, peanut, name,
                             action=actions.CREATE,
                             mode=755,
-                            user='root',
-                            group='root'):
+                            owner='$USER',
+                            group='$GROUPS'):
         self.actions = (actions.CREATE, actions.DELETE)
         self.peanut = peanut
         self.name = name
         self.action = action
-        self.user = user
+        self.owner = owner
         self.group = group
         self.mode = mode
 
@@ -32,7 +32,7 @@ class DirectoryResource(BaseResource):
         username = self.peanut.username
         password = self.peanut.password
         command = 'mkdir -p %s ' % (self.name)
-        command += ' && chown -R %s:%s %s' % (self.user, self.group, \
+        command += ' && chown -R %s:%s %s' % (self.owner, self.group, \
             self.name)
         command += ' && chmod %s %s' % (self.mode, self.name)
 
