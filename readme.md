@@ -19,3 +19,9 @@ These resources are missing
  * bash
  * execute
  * tar, zip
+
+Attributes loading
+In order to have roles, environments and nodes as json files it's important
+to know how the precedence of these attributes.
+Read https://docs.chef.io/attributes.html#attribute-precedence for further info about attributes
+A good place to setup these attributes would be on peanuts.py file. Maybe on run_peanuts method
